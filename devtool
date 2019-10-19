@@ -1,0 +1,5 @@
+docker run --name marlin-psql \
+    -p 5432:5432 \
+    -e POSTGRES_DB=marlin \
+    -e POSTGRES_PASSWORD=marlin_pass \
+    -d postgres
