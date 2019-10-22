@@ -8,19 +8,26 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import lombok.Data;
-
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Data
 @Entity
+@NoArgsConstructor
+@Setter
+@Getter
+@Table(name="url_records")
 public class UrlRecord {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
-  private final UUID id;
+  private UUID id;
 
   @Column(name="original", nullable = false, unique=true)
   private String original;
