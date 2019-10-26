@@ -23,7 +23,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Setter
 @Getter
-@Table(name="url_records")
+@Table
 public class UrlRecord {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
