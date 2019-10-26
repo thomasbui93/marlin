@@ -1,31 +1,55 @@
 package moonage.date.marlin.services.shorten;
 
-import java.util.zip.Adler32;
-import java.util.zip.Checksum;
+import java.nio.charset.StandardCharsets;
 
+import com.google.common.hash.Hashing;
+
+import org.apache.commons.validator.routines.UrlValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import lombok.extern.slf4j.Slf4j;
+import moonage.date.marlin.core.entities.UrlRecord;
+import moonage.date.marlin.core.exceptions.InvalidUrlException;
+import moonage.date.marlin.core.exceptions.UrlRecordNotFoundException;
 import moonage.date.marlin.repository.shorten.ShortenRepository;
 
 @Service
+@Slf4j
 public class ShortenService {
   @Autowired
-  private ShortenRepository repository;
+  private ShortenRepository shortenRepository;
 
-  public String shorten(String original) {
+  public UrlRecord shorten(String original) {
+    UrlRecord record = this.shortenRepository.findFirstByOriginal(original);
+    if (record != null) {
+      log.info("url record found in database, return from system.");
+      return record;
+    }
+
     String shortenUrl = getShortenFromUrl(original);
-    return shortenUrl;
+    UrlRecord urlRecord = new UrlRecord();
+    urlRecord.setOriginal(original);
+    urlRecord.setShorten(shortenUrl);
+    this.shortenRepository.save(urlRecord);
+
+    return urlRecord;
   }
 
   public String getShortenFromUrl(String url) {
-    if (url.length() == 0) {
-      return "";
+    final UrlValidator urlValidator = new UrlValidator(new String[]{"http", "https"});
+    if (urlValidator.isValid(url)) {
+      return Hashing.murmur3_32().hashString(url, StandardCharsets.UTF_8).toString();
     }
-    byte bytes[] = url.getBytes();
-    Checksum checksum = new Adler32();
-    checksum.update(bytes,0,bytes.length);
-	
-    return Long.toHexString(checksum.getValue());
+    throw new InvalidUrlException("Invalid url.");
+  }
+
+  public UrlRecord getRedirectUrl(String shorten) {
+    UrlRecord record = this.shortenRepository.findFirstByShorten(shorten);
+    if (record != null) {
+      return record;
+    } else {
+      throw new UrlRecordNotFoundException("No url found in our record.");
+    }
   }
 }
