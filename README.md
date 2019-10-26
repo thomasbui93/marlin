@@ -5,6 +5,7 @@ TODO:
 - [x] Implement basic setup.
 - [ ] Add Redis caching system.
 - [ ] Add production ready environment.
+- [ ] Add unit tests.
 - [ ] Add migration system with Flyway.
 - [ ] Dockerize application.
 - [ ] Rated limit request.
