@@ -1,25 +1,21 @@
 package moonage.date.marlin.services.shorten;
 
-import java.nio.charset.StandardCharsets;
-
 import com.google.common.hash.Hashing;
-
-import org.apache.commons.validator.routines.UrlValidator;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.stereotype.Service;
-
+import java.nio.charset.StandardCharsets;
 import lombok.extern.slf4j.Slf4j;
 import moonage.date.marlin.core.entities.UrlRecord;
 import moonage.date.marlin.core.exceptions.InvalidUrlException;
 import moonage.date.marlin.core.exceptions.UrlRecordNotFoundException;
 import moonage.date.marlin.repository.shorten.ShortenRepository;
+import org.apache.commons.validator.routines.UrlValidator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
 public class ShortenService {
-  @Autowired
-  private ShortenRepository shortenRepository;
+  @Autowired private ShortenRepository shortenRepository;
 
   public UrlRecord shorten(String original) {
     UrlRecord record = this.shortenRepository.findFirstByOriginal(original);
@@ -39,7 +35,7 @@ public class ShortenService {
 
   @Cacheable("url_records")
   public String getShortenFromUrl(String url) {
-    final UrlValidator urlValidator = new UrlValidator(new String[]{"http", "https"});
+    final UrlValidator urlValidator = new UrlValidator(new String[] {"http", "https"});
     if (urlValidator.isValid(url)) {
       return Hashing.murmur3_32().hashString(url, StandardCharsets.UTF_8).toString();
     }

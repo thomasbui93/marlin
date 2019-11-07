@@ -10,8 +10,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableCaching
 public class MarlinApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(MarlinApplication.class, args);
-	}
-
+  public static void main(String[] args) {
+    SpringApplication.run(MarlinApplication.class, args);
+  }
 }

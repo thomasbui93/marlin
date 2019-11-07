@@ -1,15 +1,13 @@
 package moonage.date.marlin.web.error;
 
 import java.util.HashMap;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class MarlinErrorController implements ErrorController {
@@ -20,13 +18,10 @@ public class MarlinErrorController implements ErrorController {
     HashMap<String, String> response = new HashMap<String, String>();
     response.put("message", "An error has occured!");
     if (status != null) {
-      return ResponseEntity
-        .status(HttpStatus.valueOf(Integer.valueOf(status.toString())))
-        .body(response);
+      return ResponseEntity.status(HttpStatus.valueOf(Integer.valueOf(status.toString())))
+          .body(response);
     }
-    return ResponseEntity
-      .status(HttpStatus.BAD_REQUEST)
-      .body(response);
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
   }
 
   @Override
