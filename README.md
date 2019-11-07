@@ -3,7 +3,7 @@ Marlin url service using Spring, PostgreSQL.
 
 TODO:
 - [x] Implement basic setup.
-- [ ] Add Redis caching system.
+- [ ] Add caching system.
 - [ ] Add production ready environment.
 - [ ] Add unit tests.
 - [ ] Add migration system with Flyway.
