@@ -6,6 +6,7 @@ import com.google.common.hash.Hashing;
 
 import org.apache.commons.validator.routines.UrlValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
@@ -36,6 +37,7 @@ public class ShortenService {
     return urlRecord;
   }
 
+  @Cacheable("url_records")
   public String getShortenFromUrl(String url) {
     final UrlValidator urlValidator = new UrlValidator(new String[]{"http", "https"});
     if (urlValidator.isValid(url)) {
@@ -44,6 +46,7 @@ public class ShortenService {
     throw new InvalidUrlException("Invalid url.");
   }
 
+  @Cacheable("url_redirects")
   public UrlRecord getRedirectUrl(String shorten) {
     UrlRecord record = this.shortenRepository.findFirstByShorten(shorten);
     if (record != null) {
