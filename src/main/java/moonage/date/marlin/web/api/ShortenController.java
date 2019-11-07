@@ -1,27 +1,24 @@
 package moonage.date.marlin.web.api;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
-
-import org.springframework.web.bind.annotation.RequestMapping;
-
 import moonage.date.marlin.core.entities.UrlRecord;
 import moonage.date.marlin.core.entities.UrlRecordDTO;
 import moonage.date.marlin.core.exceptions.InvalidUrlException;
 import moonage.date.marlin.core.exceptions.UrlRecordNotFoundException;
 import moonage.date.marlin.services.shorten.ShortenService;
 import moonage.date.marlin.services.shorten.UrlRecordMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("api/shorten")
 public class ShortenController {
-  @Autowired
-  public ShortenService shortenService;
+  @Autowired public ShortenService shortenService;
 
   @GetMapping(value = "/encode")
   public ResponseEntity<UrlRecordDTO> encodeAction(@RequestParam("url") String url) {
